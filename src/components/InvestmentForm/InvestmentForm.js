@@ -1,16 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 
 import styles from "./InvestmentForm.module.css";
 
-const InvestmentForm = () => {
-  const calculateHandler = (userInput) => {
-    // Should be triggered when form is submitted
-    // You might not directly want to bind it to the submit event on the form though...
+const DEFAULT_USER_INPUT = {
+  "current-savings": "",
+  "yearly-contribution": "",
+  "expected-return": "",
+  duration: "",
+};
 
+const InvestmentForm = (props) => {
+  const [userInput, setUserInput] = useState(DEFAULT_USER_INPUT);
+
+  const inputChangeHandler = (event) => {
+    const changedValue = {};
+    changedValue[event.target.id] = event.target.value;
+
+    setUserInput((prevState) => {
+      return { ...prevState, ...changedValue };
+    });
+  };
+
+  const formSubmitHandler = (event) => {
+    event.preventDefault();
+    const yearlyData = calculateHandler(userInput);
+    props.onCalculate(yearlyData);
+  };
+
+  const calculateHandler = (userInput) => {
     const yearlyData = []; // per-year results
 
-    let currentSavings = +userInput["current-savings"]; // feel free to change the shape of this input object!
-    const yearlyContribution = +userInput["yearly-contribution"]; // as mentioned: feel free to change the shape...
+    let currentSavings = +userInput["current-savings"];
+    const yearlyContribution = +userInput["yearly-contribution"];
     const expectedReturn = +userInput["expected-return"] / 100;
     const duration = +userInput["duration"];
 
@@ -19,7 +40,6 @@ const InvestmentForm = () => {
       const yearlyInterest = currentSavings * expectedReturn;
       currentSavings += yearlyInterest + yearlyContribution;
       yearlyData.push({
-        // feel free to change the shape of the data pushed to the array!
         year: i + 1,
         yearlyInterest: yearlyInterest,
         savingsEndOfYear: currentSavings,
@@ -27,19 +47,27 @@ const InvestmentForm = () => {
       });
     }
 
-    // do something with yearlyData ...
+    return yearlyData;
   };
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={formSubmitHandler}>
       <div className={styles["input-group"]}>
         <p>
           <label htmlFor="current-savings">Current Savings ($)</label>
-          <input type="number" id="current-savings" />
+          <input
+            type="number"
+            id="current-savings"
+            onChange={inputChangeHandler}
+          />
         </p>
         <p>
           <label htmlFor="yearly-contribution">Yearly Savings ($)</label>
-          <input type="number" id="yearly-contribution" />
+          <input
+            type="number"
+            id="yearly-contribution"
+            onChange={inputChangeHandler}
+          />
         </p>
       </div>
       <div className={styles["input-group"]}>
@@ -47,11 +75,15 @@ const InvestmentForm = () => {
           <label htmlFor="expected-return">
             Expected Interest (%, per year)
           </label>
-          <input type="number" id="expected-return" />
+          <input
+            type="number"
+            id="expected-return"
+            onChange={inputChangeHandler}
+          />
         </p>
         <p>
           <label htmlFor="duration">Investment Duration (years)</label>
-          <input type="number" id="duration" />
+          <input type="number" id="duration" onChange={inputChangeHandler} />
         </p>
       </div>
       <p className={styles.actions}>
