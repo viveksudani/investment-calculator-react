@@ -30,6 +30,9 @@ const InvestmentForm = (props) => {
   const calculateHandler = (userInput) => {
     const yearlyData = []; // per-year results
 
+    let totalInterestGained = 0;
+    let totalInvestedCapital = +userInput["current-savings"];
+
     let currentSavings = +userInput["current-savings"];
     const yearlyContribution = +userInput["yearly-contribution"];
     const expectedReturn = +userInput["expected-return"] / 100;
@@ -39,11 +42,16 @@ const InvestmentForm = (props) => {
     for (let i = 0; i < duration; i++) {
       const yearlyInterest = currentSavings * expectedReturn;
       currentSavings += yearlyInterest + yearlyContribution;
+
+      totalInterestGained += yearlyInterest;
+      totalInvestedCapital += yearlyContribution;
+
       yearlyData.push({
         year: i + 1,
-        yearlyInterest: yearlyInterest,
-        savingsEndOfYear: currentSavings,
-        yearlyContribution: yearlyContribution,
+        yearlyInterest: yearlyInterest.toFixed(2),
+        savingsEndOfYear: currentSavings.toFixed(2),
+        totalInterestGained: totalInterestGained.toFixed(2),
+        totalInvestedCapital: totalInvestedCapital,
       });
     }
 

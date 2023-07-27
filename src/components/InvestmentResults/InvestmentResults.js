@@ -2,11 +2,16 @@ import React from "react";
 
 import styles from "./InvestmentResults.module.css";
 
-const InvestmentResults = () => {
-  return (
-    //   {/* Todo: Show below table conditionally (only once result data is available) */}
-    //   {/* Show fallback text if no data is available */}
+const InvestmentResults = (props) => {
+  if (props.data.length === 0) {
+    return (
+      <div className={styles.fallback}>
+        <p>Fill above form and press calculate to view the results.</p>
+      </div>
+    );
+  }
 
+  return (
     <table className={styles.result}>
       <thead>
         <tr>
@@ -25,6 +30,17 @@ const InvestmentResults = () => {
           <td>TOTAL INTEREST GAINED</td>
           <td>TOTAL INVESTED CAPITAL</td>
         </tr>
+        {props.data.map((item) => {
+          return (
+            <tr key={item.year}>
+              <td>{item.year}</td>
+              <td>{item.savingsEndOfYear}</td>
+              <td>{item.yearlyInterest}</td>
+              <td>{item.totalInterestGained}</td>
+              <td>{item.totalInvestedCapital}</td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
