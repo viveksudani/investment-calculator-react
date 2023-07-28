@@ -13,11 +13,8 @@ const InvestmentForm = (props) => {
   const [userInput, setUserInput] = useState(DEFAULT_USER_INPUT);
 
   const inputChangeHandler = (event) => {
-    const changedValue = {};
-    changedValue[event.target.id] = event.target.value;
-
     setUserInput((prevState) => {
-      return { ...prevState, ...changedValue };
+      return { ...prevState, [event.target.id]: +event.target.value };
     });
   };
 
