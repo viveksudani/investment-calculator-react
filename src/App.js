@@ -32,9 +32,9 @@ function App() {
 
       yearlyData.push({
         year: i + 1,
-        yearlyInterest: yearlyInterest.toFixed(2),
-        savingsEndOfYear: currentSavings.toFixed(2),
-        totalInterestGained: totalInterestGained.toFixed(2),
+        yearlyInterest: yearlyInterest,
+        savingsEndOfYear: currentSavings,
+        totalInterestGained: totalInterestGained,
         totalInvestedCapital: totalInvestedCapital,
       });
     }

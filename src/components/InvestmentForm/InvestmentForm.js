@@ -30,7 +30,7 @@ const InvestmentForm = (props) => {
     <form className={styles.form} onSubmit={formSubmitHandler}>
       <div className={styles["input-group"]}>
         <p>
-          <label htmlFor="current-savings">Current Savings ($)</label>
+          <label htmlFor="current-savings">Current Savings (₹)</label>
           <input
             type="number"
             id="current-savings"
@@ -38,7 +38,7 @@ const InvestmentForm = (props) => {
           />
         </p>
         <p>
-          <label htmlFor="yearly-contribution">Yearly Savings ($)</label>
+          <label htmlFor="yearly-contribution">Yearly Savings (₹)</label>
           <input
             type="number"
             id="yearly-contribution"

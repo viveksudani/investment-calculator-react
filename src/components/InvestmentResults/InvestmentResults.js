@@ -2,6 +2,13 @@ import React from "react";
 
 import styles from "./InvestmentResults.module.css";
 
+const formatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "INR",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
 const InvestmentResults = (props) => {
   if (props.data.length === 0) {
     return (
@@ -34,10 +41,10 @@ const InvestmentResults = (props) => {
           return (
             <tr key={item.year}>
               <td>{item.year}</td>
-              <td>{item.savingsEndOfYear}</td>
-              <td>{item.yearlyInterest}</td>
-              <td>{item.totalInterestGained}</td>
-              <td>{item.totalInvestedCapital}</td>
+              <td>{formatter.format(item.savingsEndOfYear)}</td>
+              <td>{formatter.format(item.yearlyInterest)}</td>
+              <td>{formatter.format(item.totalInterestGained)}</td>
+              <td>{formatter.format(item.totalInvestedCapital)}</td>
             </tr>
           );
         })}
